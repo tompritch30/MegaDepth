@@ -11,6 +11,7 @@ from skimage.transform import resize
 
 
 img_path = 'demo.jpg'
+# img_path = 'demo_img/demo_2.jpg'
 
 model = create_model(opt)
 
@@ -40,9 +41,17 @@ def test_simple(model):
     pred_inv_depth = 1/pred_depth
     pred_inv_depth = pred_inv_depth.data.cpu().numpy()
     # you might also use percentile for better visualization
-    pred_inv_depth = pred_inv_depth/np.amax(pred_inv_depth)
 
-    io.imsave('demo.png', pred_inv_depth)
+    
+    pred_inv_depth = pred_inv_depth / np.amax(pred_inv_depth)
+    
+    ## I added
+    # Convert to 8-bit (0-255) image
+    pred_inv_depth_8bit = (pred_inv_depth * 255).astype(np.uint8)
+    
+    # io.imsave('demo.png', pred_inv_depth)
+    
+    io.imsave('demo1.png', pred_inv_depth_8bit)
     # print(pred_inv_depth.shape)
     sys.exit()
 
